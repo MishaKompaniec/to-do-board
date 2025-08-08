@@ -4,7 +4,7 @@ import styles from './column.module.css';
 import { statusIcons, statusTitles } from '../../utils';
 import type { ColumnProps } from '../../types';
 
-const Column: FC<ColumnProps> = ({ status, tasks, onDelete }) => {
+const Column: FC<ColumnProps> = ({ status, tasks, deletingId, onDelete }) => {
   return (
     <div className={styles.column}>
       <div className={styles.header}>
@@ -37,8 +37,16 @@ const Column: FC<ColumnProps> = ({ status, tasks, onDelete }) => {
                       className={styles.deleteButton}
                       onClick={(e) => onDelete(e, task.id)}
                       aria-label='Delete task'
+                      disabled={deletingId === task.id}
                     >
-                      &times;
+                      {deletingId === task.id ? (
+                        <span
+                          className={styles.deleteSpinner}
+                          aria-label='Deleting'
+                        />
+                      ) : (
+                        '×'
+                      )}
                     </button>
                     {task.text}
                   </div>

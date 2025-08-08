@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   useDeleteTodoMutation,
   useGetTodosQuery,
@@ -10,6 +10,7 @@ import styles from './main.module.css';
 import { Column } from '../../components';
 
 const MainPage = () => {
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const { data: todos = [], isLoading, error } = useGetTodosQuery();
   const [updateTodo] = useUpdateTodoMutation();
   const [deleteTodo] = useDeleteTodoMutation();
@@ -52,11 +53,18 @@ const MainPage = () => {
     }
   };
 
-  const handleDelete = (e: React.MouseEvent, id: string) => {
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     e.preventDefault();
 
-    deleteTodo(id).catch((err) => console.error('Failed to delete task', err));
+    try {
+      setDeletingId(id);
+      await deleteTodo(id).unwrap();
+    } catch (err) {
+      console.error('Failed to delete task', err);
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   if (isLoading)
@@ -84,6 +92,7 @@ const MainPage = () => {
             status={status}
             tasks={tasks}
             onDelete={handleDelete}
+            deletingId={deletingId}
           />
         ))}
       </div>
