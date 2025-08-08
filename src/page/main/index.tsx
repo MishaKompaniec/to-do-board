@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   useDeleteTodoMutation,
   useGetTodosQuery,
@@ -11,28 +11,23 @@ import { Column } from '../../components';
 
 const MainPage = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const { data: todos = [], isLoading, error } = useGetTodosQuery();
+  const { data, isLoading, error } = useGetTodosQuery();
+  const [todos, setTodos] = useState(data || []);
   const [updateTodo] = useUpdateTodoMutation();
   const [deleteTodo] = useDeleteTodoMutation();
 
-  const toDoTasks = useMemo(
-    () => todos.filter((task) => task.status === 'to do'),
-    [todos]
-  );
-  const doingTasks = useMemo(
-    () => todos.filter((task) => task.status === 'doing'),
-    [todos]
-  );
-  const doneTasks = useMemo(
-    () => todos.filter((task) => task.status === 'done'),
-    [todos]
-  );
+  useEffect(() => {
+    if (data) setTodos(data);
+  }, [data]);
 
-  const columns = {
-    'to do': toDoTasks,
-    doing: doingTasks,
-    done: doneTasks,
-  };
+  const columns = useMemo(
+    () => ({
+      'to do': todos.filter((task) => task.status === 'to do'),
+      doing: todos.filter((task) => task.status === 'doing'),
+      done: todos.filter((task) => task.status === 'done'),
+    }),
+    [todos]
+  );
 
   const handleDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
@@ -44,10 +39,39 @@ const MainPage = () => {
     )
       return;
 
-    const newStatus = destination.droppableId;
+    setTodos((prevTodos) => {
+      const updated = [...prevTodos];
+      const draggedTaskIndex = updated.findIndex(
+        (task) => task.id === draggableId
+      );
+      const draggedTask = updated[draggedTaskIndex];
+
+      updated.splice(draggedTaskIndex, 1);
+
+      const newTask = {
+        ...draggedTask,
+        status: destination.droppableId,
+      };
+
+      const sameStatusTasks = updated.filter(
+        (task) => task.status === destination.droppableId
+      );
+
+      const beforeInsertId = sameStatusTasks[destination.index]?.id ?? null;
+
+      const insertIndex = beforeInsertId
+        ? updated.findIndex((task) => task.id === beforeInsertId)
+        : updated.length;
+
+      updated.splice(insertIndex, 0, newTask);
+      return updated;
+    });
 
     try {
-      await updateTodo({ id: draggableId, status: newStatus }).unwrap();
+      await updateTodo({
+        id: draggableId,
+        status: destination.droppableId,
+      }).unwrap();
     } catch (err) {
       console.error('Failed to update task status', err);
     }
