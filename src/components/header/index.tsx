@@ -30,7 +30,8 @@ const Header: FC = () => {
   }, [buttonState]);
 
   const getButtonContent = () => {
-    if (isLoading) return '...';
+    if (isLoading)
+      return <span className={styles.addSpinner} aria-label='Loading' />;
     if (buttonState === 'success') return '✓';
     if (buttonState === 'error') return '✕';
     return '＋';
