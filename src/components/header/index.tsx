@@ -13,7 +13,7 @@ const Header: FC = () => {
     if (!text.trim()) return;
 
     try {
-      await addTodo({ text: text.trim(), status: 'to do' }).unwrap();
+      await addTodo({ text: text.trim(), status: 'to_do' }).unwrap();
       setText('');
       setButtonState('success');
     } catch (err) {

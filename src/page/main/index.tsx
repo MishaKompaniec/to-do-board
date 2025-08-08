@@ -22,7 +22,7 @@ const MainPage = () => {
 
   const columns = useMemo(
     () => ({
-      'to do': todos.filter((task) => task.status === 'to do'),
+      to_do: todos.filter((task) => task.status === 'to_do'),
       doing: todos.filter((task) => task.status === 'doing'),
       done: todos.filter((task) => task.status === 'done'),
     }),
