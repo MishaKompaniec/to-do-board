@@ -1,0 +1,40 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 57px 66px 59px 66px;
+  background-color: var(--color-bg-main);
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid var(--color-button-add, #fa9825);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+  margin: 100px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.errorMessage {
+  color: var(--color-button-error, #d9534f);
+  font-size: 24px;
+  text-align: center;
+  margin: 100px auto;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(217, 83, 79, 0.15);
+  border-radius: 8px;
+  font-weight: bold;
+}

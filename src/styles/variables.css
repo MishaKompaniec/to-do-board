@@ -1,0 +1,14 @@
+:root {
+  --color-bg-header: #5e595e;
+  --color-bg-main: #858585;
+  --color-bg-column: #6a6a6a;
+  --color-task: #d9d9d9;
+  --color-button-add: #fa9825;
+  --color-button-success: #5cd65c;
+  --color-button-error: #d9534f;
+  --color-drag-over: rgba(250, 152, 37, 0.5);
+  --color-text: #ffffff;
+  --color-text-muted: #aaa;
+  --color-delete: #888;
+  --color-delete-hover: #fa9825;
+}

@@ -1,0 +1,77 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-bg-header);
+  padding: 26px 45px 21px 0;
+  color: var(--color-text);
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.logo {
+  font-size: 1.4rem;
+}
+
+.searchInput {
+  height: 61px;
+  padding: 0.4rem 0.6rem;
+  font-size: 30px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+}
+
+.addButton {
+  background-color: var(--color-button-add);
+  border: none;
+  border-radius: 30px;
+  color: black;
+  font-size: 40px;
+  width: 89px;
+  height: 61px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.addButton.success {
+  background-color: var(--color-button-success);
+  color: var(--color-text);
+}
+
+.addButton.error {
+  background-color: var(--color-button-error);
+  color: var(--color-text);
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: normal;
+}
+
+.saveIcon {
+  font-size: 1.2rem;
+}
+
+.copyBtn {
+  background: inherit;
+  border: none;
+}
